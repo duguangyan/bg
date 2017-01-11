@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>分享js接口</title>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
+	
+</head>
+<body>
+	<h1>duguangyan</h1>
+	<p>{$name}</p>
+	<hr>
+	
+	<script type="text/javascript">
+		//alert(location.href.split('#')[0])
+		wx.config({
+		    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+		    appId: 'wxd4e9b5e2e94c58ff', // 必填，公众号的唯一标识
+		    timestamp: '{$timestamp}', // 必填，生成签名的时间戳
+		    nonceStr: '{$noncestr}', // 必填，生成签名的随机串
+		    signature: '{$signature}',// 必填，签名，见附录1
+		    jsApiList: [
+		    	'onMenuShareTimeline',//分享朋友圈
+		    	'onMenuShareAppMessage',//分享给朋友
+		    	'chooseImage',//选择手机相册
+		    	'scanQRCode',//调用扫一扫
+		    	
+		    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+		});
+		
+		wx.ready(function(){
+			wx.onMenuShareTimeline({
+			    title: '杜光焱分享到朋友圈', // 分享标题
+			    link: 'http://www.du-u.top', // 分享链接
+			    imgUrl: 'http://b62.photo.store.qq.com/psu?/19e3d275-f866-4989-922b-2c717ce6eeca/OJtWNHIfK5hj5iUhXZhugBiEXfL6jQPug0Nck1nSmW8!/b/YRQZ.SSCjAAAYoqn*SQGigAA&bo=ngL2AQAAAAABBEg!&rf=viewer_4', // 分享图标
+			    success: function () { 
+			        // 用户确认分享后执行的回调函数
+			        alert('分享成功');
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			});
+			
+			wx.onMenuShareAppMessage({
+			    title: '杜光焱分享给朋友', // 分享标题
+			    desc: '杜光焱的测试分享', // 分享描述
+			    link: 'http://www.du-u.top', // 分享链接
+			    imgUrl: 'http://b62.photo.store.qq.com/psu?/19e3d275-f866-4989-922b-2c717ce6eeca/OJtWNHIfK5hj5iUhXZhugBiEXfL6jQPug0Nck1nSmW8!/b/YRQZ.SSCjAAAYoqn*SQGigAA&bo=ngL2AQAAAAABBEg!&rf=viewer_4', // 分享图标
+			    type: 'link', // 分享类型,music、video或link，不填默认为link
+			    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			    success: function () { 
+			        // 用户确认分享后执行的回调函数
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			});
+			
+		});
+		function show(){
+			wx.chooseImage({
+			    count: 1, // 默认9
+			    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+			    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+			    success: function (res) {
+			        var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+			    }
+			});
+		}
+		
+		function scan(){
+			wx.scanQRCode({
+			    needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+			    scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+			    success: function (res) {
+			    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+			}
+			});
+			
+		}
+		
+		
+		wx.error(function(res){
+
+		    
+		});
+		
+		
+	</script>
+	
+	<button onclick="show();">获取手机图片</button><br>
+	<button onclick="scan()">扫一扫</button><br>
+	
+</body>
+</html>
